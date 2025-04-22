@@ -91,7 +91,7 @@ gcloud config set project TU_PROJECT_ID
 gcloud auth application-default login
 ```
 
-### 3. Local Execution
+## Local Execution
 
 * **Activate venv**
 
@@ -105,7 +105,7 @@ Run your static scrapper:
     python main.py
 ```
 
-### 4. Execute the project with Docker
+## Execute the project with Docker
 * **Build the image:** You must do it only once or after any code change. You can put any name, in this example the image name is: "scrapper-challenge-image"
 ```bash
 docker build -t scrapper-challenge-image .
@@ -129,3 +129,32 @@ docker run --rm -it \
 ```
 (Note: to use the AI option (use_ai=True), it's necessary modify main.py and build the image again or pass the arg as env arg to the container to control this flag. ie: -e USE_AI=True).
 
+
+## Cloud Run Deploy
+
+The script `deploy.sh` automatize this process.
+
+### 1. Config `deploy.sh`:
+Open the file and edit the variables that appears in `CONFIG` section with your IDs.
+
+### 2. Give execution file permission
+```bash
+chmod +x deploy.sh
+```
+
+### 3. Execute the deployment
+The script will build the image, upload it to Artifact Registry and deploy the Job in Cloud Run 
+```bash
+./deploy.sh
+```
+
+### 4. Execute the Job in the Cloud Run
+After the deployment, you could execute the job manually from GCP console (Cloud Run -> Jobs -> Select your job -> Run) or using `gcloud`:
+```bash
+gcloud run jobs execute your-job-name --region your_regin_name --project your_project_name --wait
+```
+
+ie:
+```bash
+gcloud run jobs execute scrapper-challenge--job --region us-central1 --project scrapperchallenge --wait
+```
