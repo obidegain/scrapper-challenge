@@ -1,0 +1,32 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Archivos de Python compilado y caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración de IDEs
+.idea/
+.vscode/
+
+# Archivos temporales y logs locales
+*.log
+*.tmp
+error_screenshot*.png # Los screenshots de depuración
+*.csv # Si generas CSVs temporales
+
+# Archivos de configuración/credenciales locales (¡IMPORTANTE!)
+# Si tienes un archivo de credenciales JSON, NUNCA lo incluyas en la imagen
+*.json
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
