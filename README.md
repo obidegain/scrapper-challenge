@@ -158,3 +158,13 @@ ie:
 ```bash
 gcloud run jobs execute scrapper-challenge--job --region us-central1 --project scrapperchallenge --wait
 ```
+
+# AI conversations:
+
+## 1 - GCP Python Script (BQ and Gemini implementation)
+The conversation:
+https://g.co/gemini/share/7bd303f84983
+
+## 2 - Create Bash Script to deploy in GCP
+The conversation:
+https://g.co/gemini/share/881b66bc8915
