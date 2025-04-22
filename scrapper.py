@@ -5,7 +5,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
+from scrapper_vertex_ai import extract_data_ai, init_vertex_ai
 import pandas as pd
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "")
+VERTEX_AI_REGION = os.environ.get("VERTEX_AI_REGION", "")
 
 
 def init_scrapper(url):
@@ -107,8 +115,11 @@ def create_df_and_calculate_columns(all_full_data):
     return df
 
 
-def scrapper(driver):
+def scrapper(driver, use_ai=False):
     df = None
+
+    if use_ai:
+        model = init_vertex_ai(GCP_PROJECT_ID, VERTEX_AI_REGION)
 
     try:
         if driver:
@@ -130,7 +141,11 @@ def scrapper(driver):
                 if all_classes_with_news:
                     print(f"Se encontraron {len(all_classes_with_news)} elementos con clase 'slot' y 'noticia'.")
                     for element in all_classes_with_news:
-                        data = extract_main_data(element)
+                        if use_ai:
+                            html_str = element.get_attribute('outerHTML')
+                            data = extract_data_ai(html_str, model)
+                        else:
+                            data = extract_main_data(element)
                         all_full_data.append(data)
 
                 if all_full_data:

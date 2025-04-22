@@ -5,7 +5,7 @@ URL = "https://www.yogonet.com/international/"
 
 if __name__ == "__main__":
     driver = init_scrapper(URL)
-    df = scrapper(driver)
+    df = scrapper(driver, use_ai=False)
     rows_uploaded = upload_data(df)
 
     print(f"Se subieron {rows_uploaded} filas a BigQuery.")
