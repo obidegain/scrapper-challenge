@@ -9,4 +9,3 @@ if __name__ == "__main__":
     rows_uploaded = upload_data(df)
 
     print(f"Se subieron {rows_uploaded} filas a BigQuery.")
-
