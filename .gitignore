@@ -1,0 +1,24 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Archivos de Python compilado y caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración de IDEs
+.idea/
+*~
+
+# Archivos temporales y logs locales
+*.log
+*.tmp
+error_screenshot*.png
+*.csv
+*.json
+
+# Archivos de configuración local y secretos
+.env
