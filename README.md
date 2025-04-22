@@ -2,11 +2,12 @@
 
 ## Description
 
-This project implements an automatic pipeline that run a web scraping of Yogonet web (`https://www.yogonet.com/international/`), extracts the main data, process the extracted data with some metrics and save the results in Google BigQuery. 
+This project implements an automatic pipeline that run a web scraping of Yogonet web (`https://www.yogonet.com/international/`), extracts the main data, process the extracted data with some metrics and save the results in Google BigQuery. The extract process have two ways: one of them static (with fixed references) and the second dynamic (with ai help to extract data from specifics html elements).
 
 ## Main Features
 
-* **Web Scraping:** Throught Selenium and WebDriver-Manager, the script extract Title, Kicker, URL article and URL image of each Yogonet New.
+* **Web Scraping:** Through Selenium and WebDriver-Manager, the script extract Title, Kicker, URL article and URL image of each Yogonet New.
+* **Dynamic Extraction:** Though Gemini AI, the script extract Title, Kicker, URL article and URL image of each Yogonet New.
 * **Data Processing:** Calculate additional metrics with Pandas:
   * Words count.
   * Chars count.
@@ -17,7 +18,8 @@ This project implements an automatic pipeline that run a web scraping of Yogonet
 
 * **Language Code:** Python 3.10+
 * **Web scraping:** Selenium, WebDriver-Manager
-* **Data Processing: ** Pandas
+* **Data Processing:** Pandas
+* **Dynamic Extraction**: Vertex AI (Gemini 1.5 Flash), google-cloud-aiplatform
 * **Cloud:** Google Cloud Platform (GCP)
   * **Storage Data:** BigQuery
 
@@ -26,15 +28,24 @@ This project implements an automatic pipeline that run a web scraping of Yogonet
 
 ### 1. Google Cloud Platform (GCP)
 
-* **Create a new project:** Get your **"GCP_PROJECT_ID"**
+* **Create a new project:** Get your `"GCP_PROJECT_ID"`
 * **Grant API:** 
   * Go to "API and services" -> "Library"
-  * Search "BigQuery API"
+  * Search `BigQuery API`
   * GRANT or "HABILITAR
+  * `Vertex AI API`
 * **Create your dataset and table:**
   * Go to BigQuery
-  * Create a Dataset -> Get your **"BQ_DATASET_ID"**
-  * Create a table -> Get your **"BQ_TABLE_ID"**
+  * Create a Dataset -> Get your `"BQ_DATASET_ID"`
+  * Create a table -> Get your `"BQ_TABLE_ID"`
+
+* **Create a ServiceAccount (SA)** (Recommended to local tries)
+  * Go to IAM -> Service Account -> Create service account
+  * Create a name (example: `scrapper-challenge-sa`)
+  * Grant IAM Roles to service account:
+    * `Vertex AI User`
+    * `BigQuery Data Editor`
+
 
 ### 2. Local Config
 * **Create a Virtual Environment**
@@ -58,12 +69,14 @@ You could create a .env file with the follow variables. (Verify that .env is inc
 GCP_PROJECT_ID=your_project_id
 BQ_DATASET_ID=your_dataset_id
 BQ_TABLE_ID=your_table_id
+VERTEX_AI_REGION=your_vertex_ai_region
 ```
 
-* **Run BigQuery Connection from local**
-If you want to connect to BigQuery it's necessary local auth. That's allows you, use your GCP credentials as secutiry way.
+* **Authenticate `gcloud` CLI and ADC**
 
 ```bash
+gcloud auth login
+gcloud config set project TU_PROJECT_ID
 gcloud auth application-default login
 ```
 
